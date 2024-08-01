@@ -6,9 +6,13 @@ use App\Filament\Resources\CategoryBusinessResource\Pages;
 use App\Filament\Resources\CategoryBusinessResource\RelationManagers;
 use App\Models\CategoryBusiness;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -19,12 +23,31 @@ class CategoryBusinessResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Kategori UMKM';
+
+    protected static ?string $navigationGroup = 'Data Master';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $pluralModelLabel = 'Kategori UMKM';
+
+    protected static ?string $modelLabel = 'Kategori UMKM';
+
+    protected static ?string $slug = 'kategori-umkm';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
+                    ->label('Nama Kategori UMKM')
+                    ->columnSpanFull()
                     ->maxLength(255),
             ]);
     }
@@ -33,22 +56,34 @@ class CategoryBusinessResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('index')
+                    ->rowIndex()
+                    ->label('No')
+                    ->width(40),
+                TextColumn::make('name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Nama Kategori UMKM'),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->label('Ditambah pada')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
+                    ->label('Diubah pada')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('name', 'asc')
+            ->persistSortInSession()
+            ->striped()
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
