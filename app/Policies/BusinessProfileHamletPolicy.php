@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\BusinessProfile;
+use App\Models\BusinessProfileHamlet;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BusinessProfilePolicy
+class BusinessProfileHamletPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class BusinessProfilePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_business::profile');
+        return $user->can('view_any_business::profile::hamlet');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, BusinessProfile $businessProfile): bool
+    public function view(User $user, BusinessProfileHamlet $businessProfileHamlet): bool
     {
-        return $user->can('view_business::profile');
+        return $user->can('view_business::profile::hamlet');
     }
 
     /**
@@ -31,23 +31,23 @@ class BusinessProfilePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_business::profile');
+        return $user->can('create_business::profile::hamlet');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, BusinessProfile $businessProfile): bool
+    public function update(User $user, BusinessProfileHamlet $businessProfileHamlet): bool
     {
-        return $user->can('update_business::profile');
+        return $user->can('update_business::profile::hamlet');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, BusinessProfile $businessProfile): bool
+    public function delete(User $user, BusinessProfileHamlet $businessProfileHamlet): bool
     {
-        return $user->can('delete_business::profile');
+        return $user->can('delete_business::profile::hamlet');
     }
 
     /**
@@ -55,15 +55,15 @@ class BusinessProfilePolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_business::profile');
+        return $user->can('delete_any_business::profile::hamlet');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, BusinessProfile $businessProfile): bool
+    public function forceDelete(User $user, BusinessProfileHamlet $businessProfileHamlet): bool
     {
-        return $user->can('force_delete_business::profile');
+        return $user->can('force_delete_business::profile::hamlet');
     }
 
     /**
@@ -71,15 +71,15 @@ class BusinessProfilePolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_business::profile');
+        return $user->can('force_delete_any_business::profile::hamlet');
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, BusinessProfile $businessProfile): bool
+    public function restore(User $user, BusinessProfileHamlet $businessProfileHamlet): bool
     {
-        return $user->can('restore_business::profile');
+        return $user->can('restore_business::profile::hamlet');
     }
 
     /**
@@ -87,15 +87,15 @@ class BusinessProfilePolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_business::profile');
+        return $user->can('restore_any_business::profile::hamlet');
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, BusinessProfile $businessProfile): bool
+    public function replicate(User $user, BusinessProfileHamlet $businessProfileHamlet): bool
     {
-        return $user->can('replicate_business::profile');
+        return $user->can('replicate_business::profile::hamlet');
     }
 
     /**
@@ -103,6 +103,6 @@ class BusinessProfilePolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_business::profile');
+        return $user->can('reorder_business::profile::hamlet');
     }
 }

@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class BusinessProfile extends Model
+class BusinessProfileSubmission extends Model
 {
     use HasFactory;
+
+    protected $table = 'business_profiles';
 
     function category_business() : BelongsTo {
         return $this->belongsTo(CategoryBusiness::class); 

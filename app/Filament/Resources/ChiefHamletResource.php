@@ -5,10 +5,15 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ChiefHamletResource\Pages;
 use App\Filament\Resources\ChiefHamletResource\RelationManagers;
 use App\Models\ChiefHamlet;
+use App\Models\Hamlet;
+use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -19,16 +24,50 @@ class ChiefHamletResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Kepala Dusun';
+
+    protected static ?string $navigationGroup = 'Data Master';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $pluralModelLabel = 'Kepala Dusun';
+
+    protected static ?string $modelLabel = 'Kepala Dusun';
+
+    protected static ?string $slug = 'kepala-dusun';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Select::make('user_id')
+                    ->label('Nama Kepala Dusun')
+                    ->preload()
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('hamlet_id')
-                    ->required()
-                    ->numeric(),
+                    ->options(function () {
+                        $assignedUsers = ChiefHamlet::pluck('user_id')->toArray();
+                        $users = User::role('kepala_dusun')
+                            ->whereNotIn('id', $assignedUsers)
+                            ->pluck('name', 'id')
+                            ->toArray();
+                        return $users ?: [];
+                    }),
+                Select::make('hamlet_id')
+                    ->label('Nama Dusun')
+                    ->options(function () {
+                        $assignedHamlets = ChiefHamlet::pluck('hamlet_id')->toArray();
+                        $hamlets = Hamlet::whereNotIn('id', $assignedHamlets)
+                            ->pluck('name', 'id')
+                            ->toArray();
+                        return $hamlets ?: [];
+                    })
+                    ->preload()
+                    ->required(),
             ]);
     }
 
@@ -36,26 +75,38 @@ class ChiefHamletResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                TextColumn::make('index')
+                    ->rowIndex()
+                    ->label('No')
+                    ->width(40),
+                TextColumn::make('user.name')
+                    ->label('Nama Kepala Dusun')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('hamlet_id')
-                    ->numeric()
+                TextColumn::make('hamlet.name')
+                    ->label('Nama Dusun')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->label('Ditambah pada')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
+                    ->label('Diubah pada')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('hamlet.name', 'asc')
+            ->persistSortInSession()
+            ->striped()
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

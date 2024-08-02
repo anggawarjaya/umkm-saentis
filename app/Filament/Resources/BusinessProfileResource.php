@@ -13,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -166,6 +167,10 @@ class BusinessProfileResource extends Resource
         return $table
             ->modifyQueryUsing($queryModifier)
             ->columns([
+                TextColumn::make('index')
+                    ->rowIndex()
+                    ->label('No')
+                    ->width(40),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
@@ -210,6 +215,7 @@ class BusinessProfileResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

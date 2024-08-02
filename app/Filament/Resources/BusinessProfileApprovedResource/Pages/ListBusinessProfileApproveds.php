@@ -9,11 +9,4 @@ use Filament\Resources\Pages\ListRecords;
 class ListBusinessProfileApproveds extends ListRecords
 {
     protected static string $resource = BusinessProfileApprovedResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
 }
