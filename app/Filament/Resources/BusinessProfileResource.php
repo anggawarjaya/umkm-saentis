@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Traineratwot\FilamentOpenStreetMap\Forms\Components\MapInput;
+use Filament\Forms\Components\FileUpload;
 
 class BusinessProfileResource extends Resource
 {
@@ -154,7 +155,15 @@ class BusinessProfileResource extends Resource
                     ->placeholder('Geser ke lokasi UMKM')
                     ->coordinates(98.7438529, 3.6635647)
                     ->rows(20)
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
+				FileUpload::make('image')
+					->multiple()
+					->reorderable()
+					->appendFiles()
+					->openable()
+					->downloadable()
+					->image()
+					->panelLayout('grid'),
             ]);
     }
 
