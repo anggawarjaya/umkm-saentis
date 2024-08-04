@@ -16,6 +16,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -73,12 +74,7 @@ class BusinessProfileSubmissionResource extends Resource
                             ->relationship(name: 'hamlet', titleAttribute: 'name')
                             ->required()
                             ->searchable()
-                            ->preload()
-                            ->createOptionForm([
-                                TextInput::make('name')
-                                    ->required()
-                                    ->label('Nama Dusun'),
-                            ]),
+                            ->preload(),
                         TextInput::make('range')
                             ->maxLength(255)
                             ->label('Rentang Harga')
@@ -154,6 +150,11 @@ class BusinessProfileSubmissionResource extends Resource
                 TextColumn::make('tiktok')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                IconColumn::make('approved')
+                    ->boolean() // Treats the column as boolean (0/1)
+                    ->color(fn (bool $state): string => $state ? 'success' : 'warning')
+                    ->trueIcon('heroicon-s-check-circle')
+                    ->falseIcon('heroicon-s-x-circle'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

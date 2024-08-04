@@ -214,7 +214,7 @@ class BusinessProfileApprovedResource extends Resource
     {
         return [
             'index' => Pages\ListBusinessProfileApproveds::route('/'),
-            'edit' => Pages\EditBusinessProfileApproved::route('/{record}/setujui'),
+            'setujui' => Pages\EditBusinessProfileApproved::route('/{record}/setujui'),
         ];
     }
 }
