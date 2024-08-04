@@ -15,4 +15,4 @@ use App\Http\Controllers\BusinessProfileController;
 */
 
 Route::get('/', [BusinessProfileController::class, 'index']);
-Route::get('/profil/{slug}', [BusinessProfileController::class, 'detail']);
+Route::get('/profil/{slug}', [BusinessProfileController::class, 'detail'])->name('profil');

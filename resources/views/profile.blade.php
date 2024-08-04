@@ -22,19 +22,6 @@
     <link rel="stylesheet" href="{{ asset('template/assets/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('https://unpkg.com/swiper@7/swiper-bundle.min.css') }}"/>
 	
-	<style>
-        .social-icon {
-            font-size: 24px; /* Ukuran ikon */
-            color: #333; /* Warna ikon */
-            text-decoration: none;
-            margin-right: 10px; /* Jarak antar ikon */
-        }
-
-        .social-icon:hover {
-            color: #007bff; /* Warna saat hover */
-        }
-    </style>
-	
 	
 <!--
 
@@ -150,18 +137,15 @@ https://templatemo.com/tm-579-cyborg-gaming
                             <h4><em>Potret</em> UMKM</h4>
                           </div>
                         </div>
+						@foreach($images as $image)
                         <div class="col-lg-3 col-sm-6">
                           <div class="item">
                             <div class="thumb">
-                              <img src="assets/images/clip-01.jpg" alt="" style="border-radius: 23px;">
-                              <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>
-                            </div>
-                            <div class="down-content">
-                              <h4>First Clip</h4>
-                              <span><i class="fa fa-eye"></i> 250</span>
+                              <img src="{{ asset('storage/' . $image) }}" alt="" style="border-radius: 23px;">
                             </div>
                           </div>
                         </div>
+						@endforeach
                       </div>
                     </div>
                   </div>

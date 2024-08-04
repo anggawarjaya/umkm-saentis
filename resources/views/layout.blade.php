@@ -115,7 +115,9 @@ https://templatemo.com/tm-579-cyborg-gaming
                   <div class="col-lg-3 col-sm-6">
                     <div class="item">
                       <img src="{{ asset('template/assets/images/logo_umkm.jpeg') }}" alt="">
-                      <h4>{{ $profile->user->name }} - {{ $profile->name }}<br><span>{{ $profile->category_business->name }} - Dusun {{ $profile->hamlet->name }}</span></h4>
+                      <a href="{{ route('profil', $profile->slug) }}">
+						<h4>{{ $profile->user->name }} - {{ $profile->name }}<br><span>{{ $profile->category_business->name }} - Dusun {{ $profile->hamlet->name }}</span></h4>
+					  </a>
                     </div>
                   </div>
 				  @endforeach

@@ -26,6 +26,7 @@ class BusinessProfileController extends Controller
 	public function detail($slug)
     {
         $profile = BusinessProfile::where('slug', $slug)->where('approved', 1)->firstOrFail();
-        return view('profile', compact('profile'));
+		$images = json_decode($profile->image, true);
+        return view('profile', compact('profile', 'images'));
     }
 }
